@@ -44,7 +44,7 @@ const LoginScreen = ({ navigation }: Props) => {
           <Input placeholder="Senha" mb={4} bg="white" secureTextEntry />
 
           {/* Botão de Login */}
-          <Button onPress={() => navigation.navigate('ConsultationsList')} bg="white" _text={{ color: 'black' }}>
+          <Button onPress={() => navigation.navigate('Main')} bg="white" _text={{ color: 'black' }}>
             Entrar
           </Button>
 
