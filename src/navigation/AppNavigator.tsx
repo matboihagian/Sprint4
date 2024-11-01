@@ -6,7 +6,8 @@ import SignUpScreen from '../screens/SignUpScreen';
 import MainScreen from '../screens/MainScreen';
 import ScheduleConsultationScreen from '../screens/ScheduleConsultationScreen';
 import ConfirmAppointmentScreen from '../screens/ConfirmAppointmentScreen';
-import EscalacaoScreen from '../screens/EscalacaoScreen'; // Importando a nova tela
+import EscalacaoScreen from '../screens/EscalacaoScreen';
+import MatchesListScreen from '../screens/MatchesListScreen'; // Importando a nova tela
 
 export type RootStackParamList = {
   Welcome: undefined;
@@ -15,7 +16,8 @@ export type RootStackParamList = {
   Main: undefined;
   ScheduleConsultation: undefined;
   ConfirmAppointment: undefined;
-  Escalacao: undefined; // Adicionando a nova rota
+  Escalacao: undefined;
+  MatchesList: undefined; // Adicionando a nova rota
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -57,6 +59,11 @@ const AppNavigator = () => {
         name="Escalacao" 
         component={EscalacaoScreen} 
         options={{ title: 'Escalação' }} 
+      />
+      <Stack.Screen 
+        name="MatchesList" // Adicionando a nova tela
+        component={MatchesListScreen} 
+        options={{ title: 'Lista de Partidas' }} 
       />
     </Stack.Navigator>
   );

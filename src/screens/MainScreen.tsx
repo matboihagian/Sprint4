@@ -34,11 +34,22 @@ const MainScreen = ({ navigation }: Props) => {
           </Box>
         </ImageBackground>
 
-        {/* Texto "Elenco:" entre o cabeçalho e o card */}
+        {/* Texto "Elenco:" e Botão */}
         <Center mt={4}>
-          <Text fontSize="4xl" fontWeight="bold" color="white">
+          <Text fontSize="4xl" fontWeight="bold" color="white" textAlign="center">
             Elenco
           </Text>
+          <Button 
+            size="lg"  // Aumenta o tamanho do botão
+            mt={2} 
+            onPress={() => navigation.navigate('MatchesList')} 
+            _hover={{ bg: "black" }} 
+            bg="gray.600"
+            px={8} // Aumenta o padding horizontal
+            py={4} // Aumenta o padding vertical
+          >
+            Partidas
+          </Button>
         </Center>
 
         <ScrollView contentContainerStyle={styles.cardsContainer}>
