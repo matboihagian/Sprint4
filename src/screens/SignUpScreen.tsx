@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NativeBaseProvider, Box, Button, Input, Center, Text, Image } from 'native-base';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator'; // Importação da tipagem correta
+import { RootStackParamList } from '../navigation/AppNavigator';
 import { Dimensions } from 'react-native';
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<
@@ -14,14 +14,51 @@ type Props = {
 };
 
 const SignUpScreen = ({ navigation }: Props) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
   const windowHeight = Dimensions.get('window').height;
+
+  const handleSignUp = async () => {
+    if (!username || !password || !confirmPassword) {
+      setMessage('Todos os campos são obrigatórios.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setMessage('As senhas não coincidem.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password, confirmPassword }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.message || 'Erro desconhecido');
+      } else {
+        setMessage('Usuário registrado com sucesso!');
+        navigation.navigate('Login');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      setMessage('Erro ao cadastrar usuário.');
+    }
+  };
 
   return (
     <NativeBaseProvider>
       <Center flex={1} bg="black">
         {/* Imagem de fundo */}
         <Image
-          source={{ uri: './assets/img/neo_quimica_arena.jpg' }} // Coloque o link da sua imagem
+          source={{ uri: './assets/img/neo_quimica_arena.jpg' }}
           alt="background"
           position="absolute"
           top={0}
@@ -30,7 +67,7 @@ const SignUpScreen = ({ navigation }: Props) => {
           bottom={0}
           width="100%"
           height={windowHeight}
-          opacity={0.5} // Deixa a imagem um pouco transparente para o contraste
+          opacity={0.5}
         />
 
         {/* Título centralizado */}
@@ -38,15 +75,54 @@ const SignUpScreen = ({ navigation }: Props) => {
           Sport Club Corinthians Paulista
         </Text>
 
-        <Box>
-          {/* Campos de entrada de texto */}
-          <Input placeholder="Nome" mb={4} bg="white" />
-          <Input placeholder="Email" mb={4} bg="white" />
-          <Input placeholder="Senha" mb={4} bg="white" secureTextEntry />
+        {/* Inputs e botões */}
+        <Box mt="20%">
+          <Input
+            placeholder="Nome de Usuário"
+            mb={4}
+            bg="white"
+            value={username}
+            onChangeText={setUsername}
+            size="lg" // Define o tamanho do input
+          />
+          <Input
+            placeholder="Senha"
+            mb={4}
+            bg="white"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+            size="lg" // Define o tamanho do input
+          />
+          <Input
+            placeholder="Confirmar Senha"
+            mb={4}
+            bg="white"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            size="lg" // Define o tamanho do input
+          />
+          {message ? <Text color="red.500" mb={4}>{message}</Text> : null}
 
-          {/* Botão de Criar Conta */}
-          <Button onPress={() => navigation.navigate('Login')} bg="white" _text={{ color: 'black' }}>
+          <Button
+            onPress={handleSignUp}
+            bg="white"
+            _text={{ color: 'black' }}
+            _hover={{ bg: 'black', _text: { color: 'white' } }}
+            _pressed={{ bg: 'gray.800' }}
+          >
             Criar Conta
+          </Button>
+          <Button
+            onPress={() => navigation.navigate('Login')}
+            mt={4}
+            bg="white"
+            _text={{ color: 'black' }}
+            _hover={{ bg: 'black', _text: { color: 'white' } }}
+            _pressed={{ bg: 'gray.800' }}
+          >
+            Já tenho uma conta
           </Button>
         </Box>
       </Center>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NativeBaseProvider, Box, Button, Center, Text, Image } from 'native-base';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator'; // Certifique-se de importar isso
+import { RootStackParamList } from '../navigation/AppNavigator';
 import { Dimensions } from 'react-native';
 
 type WelcomeScreenNavigationProp = NativeStackNavigationProp<
@@ -21,7 +21,7 @@ const WelcomeScreen = ({ navigation }: Props) => {
       <Center flex={1} bg="black">
         {/* Imagem de fundo */}
         <Image
-          source={{ uri: './assets/img/neo_quimica_arena.jpg' }} // Coloque o link da sua imagem
+          source={{ uri: './assets/img/neo_quimica_arena.jpg' }}
           alt="background"
           position="absolute"
           top={0}
@@ -30,7 +30,7 @@ const WelcomeScreen = ({ navigation }: Props) => {
           bottom={0}
           width="100%"
           height={windowHeight}
-          opacity={0.5} // Deixa a imagem um pouco transparente para o contraste
+          opacity={0.5}
         />
 
         {/* Título centralizado */}
@@ -39,11 +39,12 @@ const WelcomeScreen = ({ navigation }: Props) => {
         </Text>
 
         <Box>
-          {/* Botão branco */}
+          {/* Botão branco que fica preto ao passar o mouse */}
           <Button
             onPress={() => navigation.navigate('Login')}
             bg="white"
-            _text={{ color: 'black' }} // Cor do texto do botão
+            _text={{ color: 'black' }}
+            _hover={{ bg: "black", _text: { color: "white" } }} // Define o estilo do botão ao passar o mouse
           >
             Ir para Login
           </Button>
